@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Spotify Search</title>
+	
+	<!-- Include libraries -->
+	<script src="https://code.jquery.com/jquery.min.js"></script>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.2/angular.min.js"></script>
+  <link href="//netdna.bootstrapcdn.com/font-awesome/latest/css/font-awesome.css" rel="stylesheet">
+  <link href='https://fonts.googleapis.com/css?family=Chewy' rel='stylesheet' type='text/css'>
+	
+	<!-- Read scripts -->
+	<script src="app.js"></script>
+	<link href="app.css" type="text/css" rel="stylesheet"/>	
+  <link rel="icon" href="img/pageicon.png"/>
+	
+</head>
+<body>
+    <div ng-app="myApp" ng-controller="myCtrl">
+        <!-- Create form to specify searches -->
+      <form class="container" name="songForm" novalidate>
+        <div class="form-group" ng-class = "{'has-error': songForm.search.$touched && songForm.search.$invalid}">
+          <label id="title">Spotify Search</label>
+          <input name="search" placeholder="Enter your keywords here" ng-model="keyword" class="form-control input" ng-minlength="3" required></input>
+          <select id="select" class="container">
+              <option value='album' selected="selected">Album</option>
+              <option value='artist'>Artist</option>
+              <option value='track'>Track</option>
+          </select>
+          <p ng-show="songForm.search.$error.minlength" class="help-block">Tell us what you are looking for.</p>
+          <button ng-disabled="songForm.search.$invalid" class="btn btn-primary" ng-click="getData()" type="submit" id="submit">Submit</button>
+        </div>
+      </form>
+        <!-- display searching results -->
+        <div class="container-fixed">
+            <div ng-show="selectedType == 'album'" id="album">
+               <table class="table borderless">
+                <thead class="row">
+                  <tr>
+                  </tr>
+                </thead>
+                <tbody class="row">
+                  <tr ng-show="selectedType == 'album'" ng-repeat="ele in currentType">
+                    <td><a href="{{ele.album.external_urls.spotify}}" target="_blank"><img class="img-circle" src="{{ele.album.images[0].url}}"/></a></td>
+                    <td>{{ele.album.album_type}}</td>
+                    <td><span ng-click="isCollapsed = !isCollapsed; getAlbumTracks(ele.id)" id="pointer">{{ele.album.name}}</span> <hr>
+                      <div uib-collapse="isCollapsed" id="x">
+                          <table class = "table table-striped">
+                            <thead>
+                              <tr>
+                                <th>Songs</th>
+                                <th>Sample Songs</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr ng-repeat="song in ele.tracks">
+                                <td>{{song.name}}</td>
+                                <td><span ng-click="play(song.preview_url)" class="glyphicon glyphicon-play" id="pointer"></span></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+            </div>
+            <div ng-show="selectedType == 'artist'" ng-repeat="ele in currentType" class="col-md-6">
+                <a href="{{ele.external_urls.spotify}}" target="_blank"><img class="img-circle" id="artist" src="{{ele.images[0].url}}"></a>
+                <ul>
+                    <li>Name: {{ele.name}}</li>
+                    <li>Popularity: {{ele.popularity}}</li>
+                </ul>
+            </div>
+            <div ng-show="selectedType == 'track'" ng-repeat="ele in currentType" class="col-md-4">
+                <img ng-class="ele.preview_url == currentSong ? 'current' : '' "class="img-circle" id="img" src="{{ele.album.images[0].url}}" title="Name: {{ele.name}}" ng-click="play(ele.preview_url)">
+                <ul>
+                  <li>Name: {{ele.name}}</li>
+                </ul>
+            </div>
+    </div>
+    <a href="#" id="toTop">Back to Top &uarr;</a>
+</body>
+<!--     <div ng-if="tracks">
+      <div class="container">
+        <p id = "n" ng-show="tracks.length>0" class="help-block">Music found: </br> Click the picture or title to play and click again to pause.</p> 
+        <span id="play" ng-show="currentSong && !audioObject.paused">(Playing)</span>
+        <table class="table borderless" >
+          <thead class="row">
+            <tr>
+              <td></td>
+              <td>Album</td>
+              <th>Song</th>
+              <th><a href="#" ng-click="sortType='artist'">Artist</a></th>
+              <th><a href="#" ng-click="sortType='-popularity'">Popularity</a></th>
+            </tr>
+          </thead>
+          <tbody class="row">
+            <tr ng-repeat="track in tracks | orderBy: sortType | filter: search">
+              <td>
+                <img ng-class="track.preview_url == currentSong ? 'current' : '' "class="img-circle" src="{{track.album.images[1].url}}" ng-click="play(track.preview_url)">
+              </td>
+              <td>{{track.album.name}}</td>
+
+              <td ng-click="play(track.preview_url)" >
+                <i id="pointer" class="fa fa-play" ng-click="dontShowMe=true"></i>
+                <strong>{{track.name}}</strong>
+              </td>
+
+              <td>{{track.artists[0].name}}</td>
+
+              <td>{{track.popularity}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <a href="#" id="top">
+        <i class="fa fa-arrow-up fa-2x"></i>
+        <p>Back to Top</p>
+      </a>
+      </div>
+	  </div> -->
+
+    <footer class="footer">
+      <div class="wrapper">
+        <i class="fa fa-copyright"> 2015 Search Music </i>
+        <p>Searching results are from
+          <a href="https://www.spotify.com/us/" title="spotity">Spotify</a>
+        </p>
+      </div>
+    </footer>
+
+
+</html>
