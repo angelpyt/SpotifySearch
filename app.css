@@ -1,0 +1,114 @@
+body {
+  padding:10px;
+  background-image: url(img/b.jpg);
+  background-size: 100%;
+  background-attachment:fixed;
+  color:white;
+  font-family: 'Chewy', cursive;
+}
+
+#select {
+  display: inline-block;
+  margin-right: 20px;
+  margin-left: 20px;
+  width: 8%;
+}
+
+.input {
+  width: 80%;
+  display: inline-block;
+}
+
+#submit {
+  display: block;
+  margin-top: 20px;
+}
+
+#title {
+	font-size: 30px;
+  display: block;
+}
+
+
+.img {
+  margin-bottom:20px;
+  padding:10px; 
+  text-align:center;
+  box-sizing:border-box;
+}
+
+#pointer {
+	cursor: pointer;
+}
+
+img {
+  max-height:50%;
+  max-width:50%;
+  cursor:pointer;
+  border: 1px solid;
+}
+
+@-webkit-keyframes rotate {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to { 
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+.current {
+    -webkit-animation-name:             rotate; 
+    -webkit-animation-duration:         1.0s; 
+    -webkit-animation-iteration-count:  infinite;
+    -webkit-animation-timing-function:  linear;
+}
+
+
+.borderless tbody tr td, .borderless tbody tr th, .borderless thead tr th {
+    border: none;
+}
+
+.footer {
+	text-align: center;
+	margin-bottom: 0px;
+}
+
+#top {
+	text-decoration: none;
+}
+
+.modal-title, .modal-body {
+	color: black;
+}
+
+#n {
+	color: white;
+  display: inline;
+}
+#play {
+  display: inline;
+}
+
+@media only screen and (min-width : 480px) {
+	#title {
+		font-size: 60px;
+	}
+}
+
+ul {
+    list-style-type: none;
+    font-size: 15px;
+    width: 60%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#x {
+  color: black;
+}
+
+#pointer{
+  cursor: pointer;
+}
+
